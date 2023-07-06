@@ -1,0 +1,6 @@
+time,status,count
+00h 00,reversed,7
+00h 00,approved,9
+00h 00,processing,12
+00h 00,denied,3
+00h 00,backend_reversed,2
