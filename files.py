@@ -8,7 +8,7 @@ cursor = conn.cursor()
 date_yesterday = datetime.now().date() - timedelta(days=1)
 # Insira os dados na tabela 'transactions'
 query = "INSERT INTO transactions (time, status, count) VALUES (%s, %s, %s)"
-with open('transactions_1.csv', 'r') as csvfile:
+with open('monitor/transactions_1.csv', 'r') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         time = row['time']

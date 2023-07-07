@@ -1,4 +1,5 @@
 from database.base_database import connect_to_database
+from utils.helper import str_to_timestamp
 
 conn = connect_to_database()
 
@@ -37,5 +38,7 @@ def delete_database():
     conn.close()
 
 
-# select_test()
+select_test()
 # delete_database()
+
+# print(str_to_timestamp('00h 10'))
