@@ -27,5 +27,10 @@ RUN echo "source $ENV_FILE" >> /root/.bashrc
 # Expose the port for the application
 EXPOSE 5000
 
+# Create the table in PostgreSQL
+RUN service postgresql start && \
+    psql -U postgres -c "CREATE DATABASE monitor;" && \
+    psql -U postgres -d monitor -f database/queries.sql
+
 # Run the server and monitoring script
-CMD ["sh", "-c", "source /root/.bashrc && python3 app.py"]
+CMD ["sh", "-c", "source /root/.bashrc && python3 app.py & python3 realtime_monitor.py"]
