@@ -1,6 +1,6 @@
 # CloudWalk Task 2
 
-Brief description of the project.
+The project aims to perform real-time analysis of transactions and send email alerts based on defined rules. It is composed of multiple classes and packages that perform specific functions within the system.
 ## Table of Contents
 
 - [Description](#description)
@@ -11,8 +11,7 @@ Brief description of the project.
 - [API Documentation](#api-documentation)
 
 ## Description
-
-The project aims to perform real-time analysis of transactions and send email alerts based on defined rules. It is composed of multiple classes and packages that perform specific functions within the system.
+The project is a monitoring system for transaction data analysis. It receives transaction information and analyzes it in real-time to identify anomalies and generate alerts. The system allows the insertion of transaction data, provides an endpoint for data retrieval and analysis, and includes a real-time monitoring component to visualize transaction patterns. The monitoring system applies rule-based and machine learning algorithms to detect unusual transaction patterns and sends alert notifications accordingly. The project aims to help businesses identify and respond to transaction anomalies promptly, ensuring the integrity and security of their operations.
 
 ## Architecture
 
@@ -32,11 +31,12 @@ Other important files and directories include:
 - `app.py`: Main file of the application that contains the Flask server.
 - `Dockerfile`: Docker file to create the application container image.
 - `files_to_database.py`: File to import data into the database from CSV files.
-- `README.md`: This documentation file.
+- `README.md`: This documentation file.[.env](.env)
 - `requirements.txt`: File listing Python dependencies for the project.
 - `tests.py`: File containing automated tests.
 
 ## Usage
+
 
 ### Running with Docker
 

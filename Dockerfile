@@ -28,4 +28,4 @@ RUN echo "source $ENV_FILE" >> /root/.bashrc
 EXPOSE 5000
 
 # Run the server and monitoring script
-CMD ["sh", "-c", "source /root/.bashrc && python3 app.py & python3 realtime_monitor.py"]
+CMD ["sh", "-c", "source /root/.bashrc && python3 app.py"]

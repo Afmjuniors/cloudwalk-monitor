@@ -2,13 +2,19 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.animation as animation
+import os
+from dotenv import load_dotenv
+
 from database.TransactionsDatabase import TransactionsDatabase
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 def create_real_time_line_graph():
     transactions_database = TransactionsDatabase()
     # ATENTION IN Frequency
-    freq = 10  # Frequency for data grouping
+    freq = int(os.getenv("FREQ"), 10)  # Frequency for data grouping .env file
 
     # Function to update the graph in real-time
     def update_graph(frame):
@@ -82,6 +88,4 @@ def create_real_time_line_graph():
     # Display the graph
     plt.show()
 
-
 # Call the function to create the real-time graph
-create_real_time_line_graph()
