@@ -1,6 +1,6 @@
 CREATE TABLE transactions (
   id SERIAL PRIMARY KEY,
-  time TIMESTAMP,
+  time TIMESTAMP WITH TIME ZONE,
   status VARCHAR(20),
   count INTEGER
 );

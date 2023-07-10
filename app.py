@@ -1,30 +1,25 @@
-from flask import Flask, request, jsonify
-import pandas as pd
+from flask import Flask
 
-from business.transaction_business import TransactionBusiness
+
+from controller.TransactionsController import TransactionsController
+from business.TransactionsBusiness import TransactionBusiness
+from database.TransactionsDatabase import TransactionsDatabase
+from alert.SendEmail import SendEmail
 
 app = Flask(__name__)
+app.config['JSON_SORT_KEYS'] = False
 
-transaction_business = TransactionBusiness()
+# Dependency Injections
+transaction_database = TransactionsDatabase()
+send_email = SendEmail()
+transaction_business = TransactionBusiness(transaction_database, send_email)
+transaction_controller = TransactionsController(transaction_business)
 
-# comentar
-@app.route('/api/transactions', methods=['POST'])
-def receive_transaction():
-    csv_file = request.files['file']  # Obtém o arquivo CSV do corpo da solicitação
-    df = pd.read_csv(csv_file)
+# ENDPOINT to insert new data, at the moment must be a CSV file, named "file", later this can be changed
+app.route('/api/transactions', methods=['POST'])(transaction_controller.receive_transaction)
 
-    recommendation = transaction_business.transaction_business(df)
-
-    return 'Sent transaction with sucess'
-
-
-@app.route('/api/transactions', methods=['GET'])
-def receive_transaction():
-    output = None
-    # output = transaction.transaction_business(df)
-
-    return output
-
+# ENDPOINT to request data for analysis, it can receive queries to indicate limit and frequency time
+app.route('/api/transactions', methods=['GET'])(transaction_controller.get_data)
 
 if __name__ == '__main__':
     app.run()
