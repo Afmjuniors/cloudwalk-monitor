@@ -4,6 +4,8 @@ The project aims to perform real-time analysis of transactions and send email al
 ## Table of Contents
 
 - [Description](#description)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
 - [Architecture](#architecture)
 - [Database Setup](#database-setup)
 - [Usage](#usage)
@@ -14,6 +16,22 @@ The project aims to perform real-time analysis of transactions and send email al
 ## Description
 The project is a monitoring system for transaction data analysis. It receives transaction information and analyzes it in real-time to identify anomalies and generate alerts. The system allows the insertion of transaction data, provides an endpoint for data retrieval and analysis, and includes a real-time monitoring component to visualize transaction patterns. The monitoring system applies rule-based and machine learning algorithms to detect unusual transaction patterns and sends alert notifications accordingly. The project aims to help businesses identify and respond to transaction anomalies promptly, ensuring the integrity and security of their operations.
 
+## Features
+- Real-time monitoring of transaction data
+- Rule-based and machine learning-based (prepered but not implemented) anomaly detection
+- Email alerts for anomalous transactions
+- Historical data analysis and visualization
+- Usage of solid principles, for escability and futere micro service
+- Easy setup and deployment using Docker
+
+## Technologies Used
+- `Python 3`: Core programming language for the backend logic
+- `Flask`: Web framework for developing the API endpoints
+- `PostgreSQL`: Database system for storing transaction data
+- `Psycopg2`: PostgreSQL adapter for interacting with the database
+- `Pandas`: Data manipulation and analysis library for processing transaction data
+- `Matplotlib`: Data visualization library for creating real-time line graphs
+- `Docker`: Containerization platform for easy deployment and portability
 ## Architecture
 
 The project structure is organized as follows:
@@ -22,7 +40,7 @@ The project structure is organized as follows:
 - `business/`: Python package containing the `TransactionsBusiness.py` class for transaction handling.
 - `controller/`: Python package containing the `TransactionsController.py` class for transaction control.
 - `database/`: Python package containing the `base_database.py` class for database manipulation and the `TransactionsDatabase.py` class for transaction manipulation in the database.
-- `models/`: Python package containing the `transaction.py` class for representing transactions.
+- `models/`: Python package containing the `Transaction.py` class for representing transactions.
 - `monitor/`: Python package containing the `realtime_monitor.py` script for real-time monitoring.
 - `utils/`: Python package containing the `helper.py`  with helper functions.
 
@@ -34,9 +52,10 @@ Other important files and directories include:
 - `files_to_database.py`: File to import data into the database from CSV files.
 - `README.md`: This documentation file.[.env](.env)
 - `requirements.txt`: File listing Python dependencies for the project.
-- `tests.py`: File containing automated tests.
 
-## Database-Setup
+
+
+## Database Setup
 The Cloudwalk Monitor system requires a PostgreSQL database. During the Docker image build process, the necessary table will be created using the provided SQL script.
 
 To customize the database configuration, create a .env file in the project root directory with the following environment variables:
