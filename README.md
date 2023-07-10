@@ -1,49 +1,84 @@
-# cloudwalk-monitor
+# CloudWalk Task 2
 
-Inicialmente criei um planejamento da arquitetura do sistema
-resolvi utilizar o postrges como banco de dados e python como backend, resolvi inicialmente não criar microserviços ja
-que isso complicaria um pouco mais meu codigo e não sei se teria tempo, a primeira implemntação caso necessario seria no
-EC2 da AWS caso de tempo. Para facilitar a utilização de outras ferramentas de nuvem para escabilidade.
-Depois disso criei com ajuda do chatGPT um plano de desenvolvimento:
+Brief description of the project.
+## Table of Contents
 
-1 - Definir requisitos detalhados: Comece revisando os requisitos do sistema de monitoramento em tempo real e documente-os de forma detalhada. Identifique os recursos essenciais, as funcionalidades desejadas, as interfaces de usuário e os casos de uso relevantes. Isso ajudará a ter uma visão clara do escopo do projeto.
+- [Description](#description)
+- [Architecture](#architecture)
+- [Usage](#usage)
+  - [Running with Docker](#running-with-docker)
+  - [Running without Docker](#running-without-docker)
+- [API Documentation](#api-documentation)
 
-2 - Criar o ambiente de desenvolvimento: Configure o ambiente de desenvolvimento, incluindo a instalação do Python, do PostgreSQL e das bibliotecas que você decidiu usar. Certifique-se de ter todas as dependências necessárias instaladas e prontas para uso.
+## Description
 
-3 - Projetar a estrutura do banco de dados: Com base nos requisitos definidos, projete a estrutura do banco de dados no PostgreSQL. Crie a tabela para armazenar os dados das transações e defina as colunas necessárias. Considere também a adição de índices e restrições para otimizar o desempenho e a integridade dos dados.
+The project aims to perform real-time analysis of transactions and send email alerts based on defined rules. It is composed of multiple classes and packages that perform specific functions within the system.
 
-4 - Implementar o backend básico: Comece implementando o backend em Python, utilizando o framework escolhido (como Flask ou Django). Crie as rotas e endpoints necessários para receber as transações, consultar os dados do banco de dados e fornecer as funcionalidades de análise e alerta.
+## Architecture
 
-5 - Conectar ao banco de dados: Utilize a biblioteca Psycopg2 para estabelecer a conexão entre o backend em Python e o banco de dados PostgreSQL. Implemente as consultas SQL necessárias para inserir, consultar e manipular os dados das transações.
+The project structure is organized as follows:
 
-6 - Implementar a lógica de análise e alerta: Utilize as bibliotecas adequadas, como Pandas e scikit-learn, para realizar análises em tempo real nos dados das transações. Implemente a lógica para detectar anomalias e gerar alertas com base nos critérios definidos.
+- `alert/`: Python package containing the `SendEmail.py` class for email sending.
+- `business/`: Python package containing the `TransactionsBusiness.py` class for transaction handling.
+- `controller/`: Python package containing the `TransactionsController.py` class for transaction control.
+- `database/`: Python package containing the `base_database.py` class for database manipulation and the `TransactionsDatabase.py` class for transaction manipulation in the database.
+- `models/`: Python package containing the `transaction.py` class for representing transactions.
+- `monitor/`: Python package containing the `realtime_monitor.py` script for real-time monitoring.
+- `utils/`: Python package containing the `helper.py`  with helper functions.
 
-7 - Testar e depurar: Realize testes unitários e de integração para garantir que o backend esteja funcionando corretamente. Depure quaisquer erros ou problemas que surjam durante o processo.
+Other important files and directories include:
 
-8 - Implementar APIs e interfaces de usuário: Crie APIs para fornecer acesso aos dados e funcionalidades do sistema. Se houver interfaces de usuário, como painéis de controle ou visualizações em tempo real, desenvolva-as nessa etapa.
+- `.env.example`: Example files for variables that store project configurations.
+- `app.py`: Main file of the application that contains the Flask server.
+- `Dockerfile`: Docker file to create the application container image.
+- `files_to_database.py`: File to import data into the database from CSV files.
+- `README.md`: This documentation file.
+- `requirements.txt`: File listing Python dependencies for the project.
+- `tests.py`: File containing automated tests.
 
-9 - Documentar o código: À medida que você desenvolve, documente o código para facilitar a manutenção futura e o entendimento do sistema. Descreva as funcionalidades, os endpoints, as dependências e quaisquer outras informações relevantes.
+## Usage
 
-10 - Realizar testes de integração e aceitação: Realize testes mais abrangentes, incluindo testes de integração para garantir que todas as partes do sistema estejam funcionando bem juntas. Verifique se os requisitos definidos estão sendo atendidos e se o sistema está pronto para ser implantado em um ambiente de produção.
+### Running with Docker
 
-11 - Implementar implantação e monitoramento: Planeje a implantação do sistema em um ambiente de produção, seja no AWS EC2 ou em outra infraestrutura. Configure ferramentas de monitoramento, como o Amazon CloudWatch, para acompanhar o desempenho e a disponibilidade do sistema em tempo real.
+To run the project using Docker, follow these steps:
 
-12 - Realizar testes finais e otimizações: Realize testes finais no ambiente de produção e otimize o desempenho, se necessário. Certifique-se de que o sistema esteja pronto para lidar com a carga de trabalho esperada e que esteja fornecendo os alertas e informações corretamente.
+1. Make sure you have Docker installed on your system.
 
-13 - Lançar o sistema: Após todos os testes e otimizações, faça o lançamento do sistema de monitoramento em tempo real. Certifique-se de que todos os componentes estejam funcionando corretamente e que os usuários finais possam acessar as funcionalidades conforme o planejado.
+2. Build the Docker image using the following command:
+``
+docker build -t project-name .
+``
 
-14 - Monitorar e realizar manutenção contínua: Após o lançamento, monitore o sistema regularmente para garantir que esteja operando corretamente. Realize manutenção contínua, como correção de bugs, atualizações de segurança e melhorias de desempenho, conforme necessário.
+Replace `project-name` with a suitable name for your Docker image.
 
-## Banco de dados
+3. Run a Docker container based on the image using the following command:
+``
+docker run -p 5000:5000 project-name
+``
 
-CREATE TABLE transactions (
-  id SERIAL PRIMARY KEY,
-  time TIMESTAMP,
-  status VARCHAR(20),
-  count INTEGER
-);
+Replace `project-name` with the name of your Docker image.
 
-- Resolvi por criar uma tabela simples inicialmente sem muitas restrições
-- Com esta tabela ainda que basica é possivel criar indices de colunas e restriçoes adicionais caso seja necessario
+4. The Flask server will be running inside the Docker container and accessible at `http://localhost:5000`.
+
+### Running without Docker
+
+If you prefer to run the project without Docker, follow these steps:
+
+1. Install project dependencies by running the following command:
+``
+pip install -r requirements.txt
+``
+
+2. Configure the required environment variables in the `.env` file (refer to `.env.example` file for an example).
+
+3. Run the application using the following command:
+``
+python app.py
+``
+
+4. The Flask server will be running on port 5000. You can access the application at `http://localhost:5000`.
 
 
+## API Documentation
+
+For detailed information on the API endpoints and their usage, please refer to the [API Documentation](https://documenter.getpostman.com/view/24460683/2s93si1prr).
