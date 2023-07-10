@@ -5,6 +5,7 @@ The project aims to perform real-time analysis of transactions and send email al
 
 - [Description](#description)
 - [Architecture](#architecture)
+- [Database Setup](#database-setup)
 - [Usage](#usage)
   - [Running with Docker](#running-with-docker)
   - [Running without Docker](#running-without-docker)
@@ -35,8 +36,23 @@ Other important files and directories include:
 - `requirements.txt`: File listing Python dependencies for the project.
 - `tests.py`: File containing automated tests.
 
-## Usage
+## Database-Setup
+The Cloudwalk Monitor system requires a PostgreSQL database. During the Docker image build process, the necessary table will be created using the provided SQL script.
 
+To customize the database configuration, create a .env file in the project root directory with the following environment variables:
+
+```bash
+HOST=<database-host>
+PORT=<database-port>
+DATABASE=<database-name>
+USER=<database-user>
+PASSWORD=<database-password>
+```
+Make sure to update the values accordingly.
+
+The SQL script for creating the table is located at database/queries.sql. If you need to modify the table structure, update the SQL script accordingly.
+
+## Usage
 
 ### Running with Docker
 
@@ -45,16 +61,16 @@ To run the project using Docker, follow these steps:
 1. Make sure you have Docker installed on your system.
 
 2. Build the Docker image using the following command:
-``
+```bash
 docker build -t project-name .
-``
+```
 
 Replace `project-name` with a suitable name for your Docker image.
 
 3. Run a Docker container based on the image using the following command:
-``
+```bash
 docker run -p 5000:5000 project-name
-``
+```
 
 Replace `project-name` with the name of your Docker image.
 
@@ -65,16 +81,16 @@ Replace `project-name` with the name of your Docker image.
 If you prefer to run the project without Docker, follow these steps:
 
 1. Install project dependencies by running the following command:
-``
+```bash
 pip install -r requirements.txt
-``
+```
 
 2. Configure the required environment variables in the `.env` file (refer to `.env.example` file for an example).
 
 3. Run the application using the following command:
-``
+```bash
 python app.py
-``
+```
 
 4. The Flask server will be running on port 5000. You can access the application at `http://localhost:5000`.
 
