@@ -1,6 +1,8 @@
 from datetime import datetime
+import pandas as pd
 from sklearn.ensemble import IsolationForest
 import numpy as np
+from error.CustomBadRequestError import CustomBadRequestError
 
 from utils.helper import transform_date_timestamp_to_str
 
@@ -88,29 +90,39 @@ class TransactionBusiness:
 
     # Method to receive data to analyze in DataFrame format
     def transaction_business(self, df):
-        total_transactions = 0
-        total_failed = 0
-        total_denied = 0
-        total_reversed = 0
-        total_approved = 0
-        total_processing = 0
+        try:
+            assert isinstance(df, pd.DataFrame), "The 'df' argument must be a DataFrame."
+            assert all(column in df.columns for column in ['time', 'status',
+                                                           'count']), "The DataFrame must contain the columns 'time', 'status', and 'count'."
 
-        for index, row in df.iterrows():
-            self.transaction_database.insert_transaction(row['time'], row['status'], row['count'])
-            if row['status'] == 'failed':
-                total_failed = row['count']
-            elif row['status'] == 'denied':
-                total_denied = row['count']
-            elif row['status'] == 'reversed' or row['status'] == 'backend_reversed':
-                total_reversed += row['count']
-            elif row['status'] == 'approved' or row['status'] == 'refunded':
-                total_approved += row['count']
-            else:
-                total_processing += row['count']
+            total_transactions = 0
+            total_failed = 0
+            total_denied = 0
+            total_reversed = 0
+            total_approved = 0
+            total_processing = 0
 
-            total_transactions += row['count']
+            for index, row in df.iterrows():
+                self.transaction_database.insert_transaction(row['time'], row['status'], row['count'])
 
-        self._analyze_transactions(total_transactions, total_failed, total_denied, total_reversed, total_processing)
+                if row['status'] == 'failed':
+                    total_failed = row['count']
+                elif row['status'] == 'denied':
+                    total_denied = row['count']
+                elif row['status'] == 'reversed' or row['status'] == 'backend_reversed':
+                    total_reversed += row['count']
+                elif row['status'] == 'approved' or row['status'] == 'refunded':
+                    total_approved += row['count']
+                else:
+                    total_processing += row['count']
+
+                total_transactions += row['count']
+
+            self._analyze_transactions(total_transactions, total_failed, total_denied, total_reversed,
+                                       total_processing)
+        except AssertionError as ae:
+            raise CustomBadRequestError(f"Bad Request: {ae}")
+
     def get_data(self, date_str: str, freq: int):
         # Convert the date string to a datetime object
         date_obj = datetime.strptime(date_str, "%d/%m/%Y")
