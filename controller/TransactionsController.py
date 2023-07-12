@@ -33,3 +33,8 @@ class TransactionsController:
             "length": len(output),
             "data": output
         }
+
+    def get_threshold(self):
+        output = self.transaction_business.get_threshold()
+
+        return output

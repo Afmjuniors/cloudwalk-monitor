@@ -8,13 +8,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-class SendEmail:
+class SendAlert:
     # Configure email information
     sender_email = os.getenv("SENDER_EMAIL")
     sender_password = os.getenv("SENDER_PASSWORD")
     subject = 'ALERT - Transactions'
 
-    def construct_email(self, message, receiver_email):
+    def _construct_email(self, message, receiver_email):
         msg = MIMEText(f'Alert: {message}')
         msg['Subject'] = self.subject
         msg['From'] = self.sender_email
@@ -30,10 +30,13 @@ class SendEmail:
 
             # Send the email
             server.sendmail(self.sender_email, receiver_email,
-                            self.construct_email(message, receiver_email).as_string())
+                            self._construct_email(message, receiver_email).as_string())
             print('Alert email sent successfully!')
         except Exception as e:
             print('Error sending alert email:', str(e))
         finally:
             # Close the SMTP server connection
             server.quit()
+
+    def send_print(self, message):
+        print(message)

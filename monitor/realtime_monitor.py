@@ -88,4 +88,3 @@ def create_real_time_line_graph():
     # Display the graph
     plt.show()
 
-# Call the function to create the real-time graph

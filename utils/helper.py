@@ -16,11 +16,12 @@ def request_to_dataframe(request):
     df = None
     if 'file' in request.files:
         file = request.files['file']
-    if file.filename.endswith('.csv'):
-        df = pd.read_csv(file)
-    elif file.mimetype == 'application/json':
-        df = pd.read_json(file)
+        if file.filename.endswith('.csv'):
+            df = pd.read_csv(file)
+        elif file.mimetype == 'application/json':
+            df = pd.read_json(file)
     else:
         df = pd.DataFrame(request.json)
 
     return df
+
