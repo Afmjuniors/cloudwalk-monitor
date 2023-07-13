@@ -7,7 +7,7 @@ cursor = conn.cursor()
 
 # ====================Code to insert rows into database by csv file=====================================
 
-date_yesterday = datetime.now().date() - timedelta(days=1)
+date_yesterday = datetime.now().date() - timedelta(days=2)
 # Insert the data into the 'transactions' table
 query = "INSERT INTO transactions (time, status, count) VALUES (%s, %s, %s)"
 with open('monitor/transactions_1.csv', 'r') as csvfile:

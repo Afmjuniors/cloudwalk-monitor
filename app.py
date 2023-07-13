@@ -23,7 +23,7 @@ transaction_controller = TransactionsController(transaction_business)
 # ENDPOINT to insert new data, at the moment must be a CSV file, named "file", later this can be changed
 app.route('/api/transactions', methods=['POST'])(transaction_controller.receive_transaction)
 
-# ENDPOINT to request data for analysis, it can receive queries to indicate limit and frequency time
+# ENDPOINT to request data for analysis, it can receive queries the date and frequency time
 app.route('/api/transactions', methods=['GET'])(transaction_controller.get_data)
 
 # ENDPOINT to request current Threshold

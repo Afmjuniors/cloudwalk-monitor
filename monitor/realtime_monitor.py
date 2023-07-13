@@ -17,6 +17,7 @@ def create_real_time_line_graph():
     freq = int(os.getenv("FREQ"), 10)  # Frequency for data grouping .env file
 
     # Function to update the graph in real-time
+
     def update_graph(frame):
         # Get the data from the database
         results = transactions_database.get_all_transactions()
@@ -87,4 +88,3 @@ def create_real_time_line_graph():
 
     # Display the graph
     plt.show()
-

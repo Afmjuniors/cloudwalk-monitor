@@ -50,7 +50,6 @@ class TransactionsDatabase:
             cursor.execute(query)
             results = cursor.fetchall()
             cursor.close()
-            print(results)
             return results
 
         except Exception as e:
